@@ -19,7 +19,6 @@ public class NameParserTest {
 
     @Test
     public void testName() {
-
         assertEquals(true, parser.matchName("Smith", "John Smith"));
         assertEquals(true, parser.matchName("Smith", "John E Smith"));
         assertEquals(true, parser.matchName("Smith", "John Edward Smith"));
@@ -38,8 +37,9 @@ public class NameParserTest {
 
     }
 
+
     @Test
-    public void unsupportedSuffixes(){
+    public void unsupportedSuffixes() {
         assertEquals(false, parser.matchName("Smith", "John Edward Smith jnr"));
         assertEquals(false, parser.matchName("Jones Jr.   ", "John Edward Smith JNR "));
         assertEquals(false, parser.matchName("Smith Jr", "John Edward Smith Jnr"));
@@ -57,32 +57,33 @@ public class NameParserTest {
     }
 
     @Test
-    public void suffixIButPasses(){
+    public void suffixIButPasses() {
         assertEquals(true, parser.matchName("Lii I", "Li Lii I"));
 
     }
 
     @Test
-    public void testDubiousTestCases(){
+    public void testDubiousTestCases() {
         assertEquals(true, parser.matchName("Smith sr", "John Edward Smith senior"));
 
     }
 
     @Test
-    public void testSpacesBetweenName(){
+    public void testSpacesBetweenName() {
         assertEquals(true, parser.matchName("Smith    Jr.", "Smith Jr"));
         assertEquals(true, parser.matchName("         Smith    Jr.     ", "  Smith Jr"));
         assertEquals(false, parser.matchName("Smith 9th", "Adam Smith"));
     }
 
     @Test
-    public void testDoctorates(){
+    public void testDoctorates() {
         assertEquals(true, parser.matchName("Smith PhD", "Smith phd"));
         assertEquals(false, parser.matchName("SmithPhD", "Smith phd"));
 
     }
+
     @Test
-    public void testDDSDoctors(){
+    public void testDDSDoctors() {
         assertEquals(false, parser.matchName("Smith    dds", "Smith PhD"));
         assertEquals(true, parser.matchName("Smith dds", "Smith DDS"));
         assertEquals(true, parser.matchName("Smith DDS", "Smith D.D.S."));
@@ -91,7 +92,7 @@ public class NameParserTest {
     }
 
     @Test
-    public void testTrailingWhiteSpaceInDBField(){
+    public void testTrailingWhiteSpaceInDBField() {
         assertEquals(false, parser.matchName("Smith    dds", "Smith PhD  "));
         assertEquals(true, parser.matchName("Smith dds", "Smith DDS"));
         assertEquals(true, parser.matchName("Smith DDS", "Smith D.D.S.			"));
@@ -101,15 +102,16 @@ public class NameParserTest {
     }
 
     @Test
-    public void testTrailingWhiteSpaceInCustomerInput(){
+    public void testTrailingWhiteSpaceInCustomerInput() {
         assertEquals(false, parser.matchName("Smith    dds	", "Smith PhD"));
         assertEquals(true, parser.matchName("Smith   ", "Smith DDS"));
         assertEquals(true, parser.matchName("Smith DDS    ", "Smith D.D.S."));
         assertEquals(true, parser.matchName("Smith DDS			", "Smith"));
 
     }
+
     @Test
-    public void testLeadingWhiteSpaceInDataBase(){
+    public void testLeadingWhiteSpaceInDataBase() {
         assertEquals(false, parser.matchName("Smith    dds", " Smith PhD"));
         assertEquals(true, parser.matchName("Smith", "  Smith DDS"));
         assertEquals(true, parser.matchName("Smith DDS", "			Smith D.D.S."));
@@ -118,7 +120,7 @@ public class NameParserTest {
     }
 
     @Test
-    public void testLeadingWhiteSpaceInCustomerInput(){
+    public void testLeadingWhiteSpaceInCustomerInput() {
         assertEquals(false, parser.matchName("	Smith    dds", "Smith PhD"));
         assertEquals(true, parser.matchName("  Smith", "  Smith DDS"));
         assertEquals(true, parser.matchName(" Smith DDS", "Smith D.D.S."));
@@ -127,20 +129,20 @@ public class NameParserTest {
     }
 
     @Test
-    public void testSomeNumbers(){
+    public void testSomeNumbers() {
         assertEquals(false, parser.matchName("Smith 4th", "Smith 3rd"));
         assertEquals(true, parser.matchName("Smith 4th", "Smith 4th	"));
 
     }
 
     @Test
-    public void testPuncutations(){
+    public void testPuncutations() {
         assertEquals(true, parser.matchName("Smith DDS", "Smith D.D.S."));
 
     }
 
     @Test
-    public void testEsq(){
+    public void testEsq() {
         assertEquals(true, parser.matchName("Smith Esq", "Smith Esq."));
         assertEquals(true, parser.matchName("Smith Esq", "Smith Esq.  "));
         assertEquals(false, parser.matchName("Smith Esq", "Smith cpa"));
@@ -149,7 +151,7 @@ public class NameParserTest {
     }
 
     @Test
-    public void testNameContainsTheSuffixEdgeCases(){
+    public void testNameContainsTheSuffixEdgeCases() {
         assertEquals(false, parser.matchName("Jonesr", "Adam Smith"));
         assertEquals(false, parser.matchName("Smithjr", "Adam Smith Jr"));
         assertEquals(true, parser.matchName("Smithjr", "Adam SmithJr"));
@@ -160,7 +162,7 @@ public class NameParserTest {
     }
 
     @Test
-    public void testReallySmallNames(){
+    public void testReallySmallNames() {
         assertEquals(true, parser.matchName("Li", "Adam Li"));
         assertEquals(true, parser.matchName("Li", "Adam Li II"));
         assertEquals(true, parser.matchName("Lii", "Li Lii II"));
@@ -171,21 +173,21 @@ public class NameParserTest {
     }
 
     @Test
-    public void testSomeWeirdOutOfOrdinarySuffixes(){
+    public void testSomeWeirdOutOfOrdinarySuffixes() {
         assertEquals(false, parser.matchName("Lee", "Lee Coolguy"));
         assertEquals(false, parser.matchName("Lee IceT", "Lee Coolguy"));
         assertEquals(true, parser.matchName("Lee nice", "Lee nice"));
     }
 
     @Test
-    public void test_Suffix_5(){
+    public void test_Suffix_5() {
         assertEquals(true, parser.matchName("Lee v", "Lee V."));
         assertEquals(true, parser.matchName("Lee v.", "Lee FIFTH"));
         assertEquals(true, parser.matchName("Lee 5th", "Lee V"));
     }
 
     @Test
-    public void testUSA_F_R_Suffixes(){
+    public void testUSA_F_R_Suffixes() {
         assertEquals(true, parser.matchName("Lee USAF", "Lee US.AF"));
         assertEquals(true, parser.matchName("Lee USAF", "Bret M Lee U.S.A.F."));
         assertEquals(false, parser.matchName("Lee USAF", "Bret M Lee U.S.A."));
@@ -202,7 +204,7 @@ public class NameParserTest {
 
 
     @Test
-    public void testUSMC_Suffixes(){
+    public void testUSMC_Suffixes() {
         assertEquals(false, parser.matchName("king USMC", "Lee U.S.M.C."));
         assertEquals(true, parser.matchName("reagan USMC", "reagan U.S.M.C."));
         assertEquals(false, parser.matchName("reagan USMC", "reagan U.S.M."));
@@ -211,7 +213,7 @@ public class NameParserTest {
     }
 
     @Test
-    public void test_USA_R_Suffixes(){
+    public void test_USA_R_Suffixes() {
         assertEquals(false, parser.matchName("walker USA", "walker USAR"));
         assertEquals(false, parser.matchName("walker USAR", "walker USA"));
         assertEquals(false, parser.matchName("walker U.S.A.", "walker USAR"));
@@ -344,8 +346,6 @@ public class NameParserTest {
         assertEquals(false, parser.matchName("John O Malley", "John O'Malley"));
 
     }
-
-
 
 
 }
