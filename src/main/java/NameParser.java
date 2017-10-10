@@ -8,15 +8,6 @@ import java.util.stream.Collectors;
  */
 public class NameParser {
 
-    private String firstName;
-    private static String lastName = "Smith DDS";
-    private static String fullName = "Smith D.D.S.			";
-
-    public NameParser() {
-        this.lastName = lastName;
-        this.fullName = fullName;
-    }
-
     /**
      * Method gets the full name, trims the String, removes extra spaces,
      * splits full name into parts and gets the first word from full name.
@@ -27,6 +18,11 @@ public class NameParser {
      */
     public String getFirstName(String fullName) {
 
+        String firstName;
+
+        if (null == fullName)
+            fullName = "";
+
         String nameInParts[] = fullName.trim().replaceAll("\\s+", " ").split(" ");
 
         boolean isMatch = Arrays.stream(KnownSuffixes.KNOWN_SUFFIXES) //checks if the first
@@ -34,7 +30,6 @@ public class NameParser {
                 .anyMatch(s -> s.equalsIgnoreCase(nameInParts[0]));
 
         firstName = (isMatch ? nameInParts[1] : nameInParts[0]);
-        System.out.println("First Name is: " + firstName);
         return firstName;
     }
 
@@ -55,6 +50,10 @@ public class NameParser {
 
         stackLast.addAll(last);
         stackFull.addAll(full);
+
+        if (stackFull.isEmpty()) {
+            return false;
+        }
 
         while (!stackLast.isEmpty()) {
 
@@ -111,7 +110,7 @@ public class NameParser {
         Stack<String> lastNameStack = listToCharStack(last);
         Stack<String> fullNameStack = listToCharStack(full);
 
-        while (lastNameStack.size() !=0 && fullNameStack.size() != 0) {
+        while (lastNameStack.size() != 0 && fullNameStack.size() != 0) {
 
             String lastNameChar = lastNameStack.peek();
             String fullNameChar = fullNameStack.peek();
@@ -119,14 +118,13 @@ public class NameParser {
             if (fullNameChar.equalsIgnoreCase(lastNameChar)) {
                 lastNameStack.pop();
                 fullNameStack.pop();
-            } else if(lastNameChar.equals(" ") && fullNameChar.equals("-")) {
+            } else if (lastNameChar.equals(" ") && fullNameChar.equals("-")) {
                 return false;
-            } else if (lastNameChar.equals("'") || lastNameChar.equals("-")){
+            } else if (lastNameChar.equals("'") || lastNameChar.equals("-")) {
                 lastNameStack.pop();
             } else if (fullNameChar.equals("'") || fullNameChar.equals("-")) {
                 fullNameStack.pop();
-            }
-            else if ((lastNameChar.equals(" ") && !fullNameChar.equals(" ")) ||
+            } else if ((lastNameChar.equals(" ") && !fullNameChar.equals(" ")) ||
                     (!lastNameChar.equals(" ") && fullNameChar.equals(" "))) {
                 if (lastNameChar.equals(" ")) {
                     lastNameStack.pop();
@@ -167,7 +165,7 @@ public class NameParser {
         for (String str1 : parsed) {
             String[] arr = str1.split("\\d+");
             if (arr.length > 1) {
-                if (arr[0].length() != 0){
+                if (arr[0].length() != 0) {
                     newParsed.add(arr[0]);
                 }
                 newParsed.add(str1.replaceAll(arr[0], ""));
@@ -201,5 +199,9 @@ public class NameParser {
         }
 
         return equals;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
