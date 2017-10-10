@@ -20,8 +20,9 @@ public class NameParser {
 
         String firstName;
 
-        if (null == fullName)
+        if (null == fullName) {
             fullName = "";
+        }
 
         String nameInParts[] = fullName.trim().replaceAll("\\s+", " ").split(" ");
 
@@ -41,6 +42,13 @@ public class NameParser {
      * @return true if the name was entered correctly
      */
     public boolean matchName(String lastName, String fullName) {
+
+        if (null == fullName) {
+            fullName = "";
+        }
+        if (null == lastName) {
+            lastName = "";
+        }
 
         List<String> last = parseInput(lastName);
         List<String> full = parseInput(fullName);

@@ -19,6 +19,8 @@ public class NameParserTest {
 
     @Test
     public void testName() {
+        assertEquals(false, parser.matchName(null, null));
+
         assertEquals(true, parser.matchName("Smith", "John Smith"));
         assertEquals(true, parser.matchName("Smith", "John E Smith"));
         assertEquals(true, parser.matchName("Smith", "John Edward Smith"));
