@@ -54,6 +54,9 @@ public class NameParser {
         if (stackFull.isEmpty()) {
             return false;
         }
+        if (stackLast.isEmpty()) {
+            return false;
+        }
 
         while (!stackLast.isEmpty()) {
 
